@@ -11,21 +11,31 @@ public class AdocaoService {
     private List<Adocao> adocoes = new ArrayList<>();
 
     public void gerarAdocao(Adotante adotante, Animal animal) {
-        if (!adotante.validar() || !animal.validar()) {
-            System.out.println("Adotante ou animal não está apto para adoção.");
+        if (!adotante.validar()) {
+            System.out.println("O adotante não está apto para adoção (pode estar inativo ou com dados incompletos).");
+            return;
+        }
+
+        if (!animal.validar()) {
+            System.out.println("O animal não está apto para adoção.");
             return;
         }
 
         Adocao novaAdocao = new Adocao(adotante, animal, false);
         adocoes.add(novaAdocao);
-        System.out.println(" Adoção gerada com sucesso! (Termo ainda não assinado).");
+        System.out.println("Adoção gerada com sucesso! (Termo ainda não assinado).");
     }
 
     public void realizarAdocao(String cpf, String idAnimal) {
         for (Adocao adocao : adocoes) {
             if (adocao.getAdotante().getCpf().equals(cpf) &&
-            adocao.getAnimalAdotado().getId().equals(idAnimal) &&
-            !adocao.isTermoAssinado()) {
+                    adocao.getAnimalAdotado().getId().equals(idAnimal) &&
+                    !adocao.isTermoAssinado()) {
+
+                if (!adocao.getAdotante().validar()) {
+                    System.out.println("Adoção não pode ser concluída: adotante está inativo ou inválido.");
+                    return;
+                }
 
                 adocao.setTermoAssinado(true);
                 adocao.getAnimalAdotado().setStatus("Adotado");
@@ -33,6 +43,7 @@ public class AdocaoService {
                 return;
             }
         }
+
         System.out.println("Adoção não encontrada ou já foi realizada.");
     }
 

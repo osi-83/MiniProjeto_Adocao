@@ -67,11 +67,17 @@ public class Adotante extends Pessoa implements interfaces.Validavel, interfaces
 
     @Override
     public boolean validar() {
-        return nome != null && !nome.isEmpty() && idade >= 18 && telefone != null && !telefone.isEmpty();
+        return nome != null && !nome.isEmpty() &&
+                idade >= 18 &&
+                telefone != null && !telefone.isEmpty() &&
+                ativo;
     }
 
     @Override
     public String gerarRelatorio() {
-        return  String.format("Adotante: %s\nIdade: %d\nTelefone: %s", nome, idade, telefone);
+        return  String.format("Adotante: %s\nIdade: %d\nTelefone: %s"
+                , nome
+                , idade
+                , telefone);
     }
 }

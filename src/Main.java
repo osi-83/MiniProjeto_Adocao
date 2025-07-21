@@ -239,7 +239,10 @@ public class Main {
                     Adotante adotante = adotanteService.buscarAdotantePorId(cpfAdotante);
                     if (adotante == null) {
                         System.out.println("Adotante não encontrado.");
-                        break;
+                        if (!adotante.isAtivo()) {
+                            System.out.println("Este adotante está inativo. Não é possível realizar adoções.");
+                            break;
+                        }
                     }
 
                     animalService.listarAnimais();
